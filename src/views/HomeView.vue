@@ -2,13 +2,16 @@
 
 import { ref } from "vue";
 import type { Ref } from "@vue/reactivity";
-import SourceData from '@/components/1_SourceData.vue'
-import { BusinessData } from '@/models/BusinessData'
+import SourceData from '@/components/SourceData.vue'
+import SalesBudget from '@/components/1_SalesBudget.vue'
+import { BusinessData, defaultBusinessData } from '@/models/BusinessData'
 
 const tab: Ref<number> = ref(1);
+const businessData: Ref<BusinessData> = ref(defaultBusinessData);
 
-const updated = (value: BusinessData) => {
-  console.log(value);
+const updated = (newValue: BusinessData) => {
+  console.log(newValue)
+  businessData.value = newValue;
 };
 
 </script>
@@ -20,18 +23,18 @@ const updated = (value: BusinessData) => {
           v-model="tab"
           bg-color="primary">
         <v-tab :value="1" class="text-none">Исходные данные</v-tab>
-        <v-tab :value="2" class="text-none">Item Two</v-tab>
+        <v-tab :value="2" class="text-none">Бюджет продаж</v-tab>
         <v-tab :value="3" class="text-none">Item Three</v-tab>
       </v-tabs>
 
       <v-card-text>
         <v-tabs-window v-model="tab">
           <v-tabs-window-item :value="1">
-            <SourceData @modelUpdated="updated" />
+            <SourceData :data="businessData" @modelUpdated="updated" />
           </v-tabs-window-item>
 
           <v-tabs-window-item :value="2">
-            Two
+            <SalesBudget :data="businessData" />
           </v-tabs-window-item>
 
           <v-tabs-window-item :value="3">

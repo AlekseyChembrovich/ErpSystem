@@ -3,52 +3,13 @@
 import { ref, watch, reactive } from 'vue';
 import { BusinessData } from '@/models/BusinessData'
 
+const props = defineProps<{
+  data: BusinessData
+}>();
+
 const emit = defineEmits<{ (e: 'modelUpdated', model: BusinessData): void }>();
 
-const businessData = reactive<BusinessData>({
-  productASalesVolume: 140,
-  productBSalesVolume: 260,
-  productAPrice: 40,
-  productBPrice: 95,
-  productABeginningInventory: 23,
-  productBBeginningInventory: 150,
-  productAInventoryPolicy: 20,
-  productBInventoryPolicy: 10,
-  
-  productAMaterial1: 5,
-  productAWorker1: 6,
-  productBMaterial1: 6,
-  productBWorker1: 2,
-
-  material1PurchasePrice: 40,
-  workerHourlyRate: 20,
-
-  material1InventoryPolicy: 25,
-  material1Supplier1Policy: 90,
-
-  fsznContributions: 35,
-
-  productionElectricity: 25300,
-  telecomExpenses: 125000,
-  equipmentDepreciation: 32000,
-
-  adminElectricity: 40000,
-  productionManagementSalary: 15000,
-  businessTripExpenses: 65200,
-  advertisingExpenses: 29000,
-  packagingExpenses: 36000,
-  
-  incomeTax: 24,
-  
-  productAPlannedCost: 2079.28891,
-  productBPlannedCost: 1996.082725,
-
-  material1BeginningInventory: 560,
-  material1TransportationCosts: 200,
-
-  managementSalary: 52000,
-  beginningCashBalance: 16500,
-});
+const businessData = reactive<BusinessData>(props.data);
 
 watch(businessData, (newVal) => {
   items.value.forEach(item => {
