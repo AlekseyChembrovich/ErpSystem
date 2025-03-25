@@ -3,8 +3,13 @@
 import { ref } from "vue";
 import type { Ref } from "@vue/reactivity";
 import SourceData from '@/components/1_SourceData.vue'
+import { BusinessData } from '@/models/BusinessData'
 
 const tab: Ref<number> = ref(1);
+
+const updated = (value: BusinessData) => {
+  console.log(value);
+};
 
 </script>
 
@@ -22,7 +27,7 @@ const tab: Ref<number> = ref(1);
       <v-card-text>
         <v-tabs-window v-model="tab">
           <v-tabs-window-item :value="1">
-            <SourceData/>
+            <SourceData @modelUpdated="updated" />
           </v-tabs-window-item>
 
           <v-tabs-window-item :value="2">
