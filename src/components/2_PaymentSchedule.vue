@@ -2,7 +2,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { BusinessData } from "@/models/BusinessData";
-import { useSalesBudget } from "@/composables/useSalesBudget";
 import { usePaymentSchedule } from "@/composables/2_usePaymentSchedule";
 
 const props = defineProps<{

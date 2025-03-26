@@ -1,5 +1,5 @@
 import type { BusinessData } from "@/models/BusinessData";
-import { useSalesBudget } from "./useSalesBudget";
+import { useSalesBudget } from "@/composables/1_useSalesBudget";
 
 export const usePaymentSchedule = (data: BusinessData) => {
 
