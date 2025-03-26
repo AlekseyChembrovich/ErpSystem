@@ -1,5 +1,5 @@
 ﻿import type { BusinessData } from "@/models/BusinessData";
-import {useBudgetProductionAndProductInventory} from "@/composables/useBudgetProductionAndProductInventory";
+import {useBudgetProductionAndProductInventory} from "@/composables/3_useBudgetProductionAndProductInventory";
 
 export const useMaterial1RequirementBudget = (data: BusinessData) => {
     const {

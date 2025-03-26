@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { BusinessData } from "@/models/BusinessData";
-import {useBudgetProductionAndProductInventory} from "@/composables/useBudgetProductionAndProductInventory";
-import {useMaterial1RequirementBudget} from "@/composables/useMaterial1RequirementBudget";
+import {useBudgetProductionAndProductInventory} from "@/composables/3_useBudgetProductionAndProductInventory";
+import {useMaterial1RequirementBudget} from "@/composables/4_useMaterial1RequirementBudget";
 
 const props = defineProps<{
   data: BusinessData;

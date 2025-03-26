@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import type { BusinessData } from "@/models/BusinessData";
-import { useSalesBudget } from "@/composables/useSalesBudget";
+import { useSalesBudget } from "@/composables/1_useSalesBudget";
 
 const props = defineProps<{
   data: BusinessData;
