@@ -1,62 +1,80 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 import type { BusinessData } from "@/models/BusinessData";
+import { useSalesBudget } from "@/composables/useSalesBudget";
 
 const props = defineProps<{
-  data: BusinessData
+  data: BusinessData;
 }>();
 
 // Заголовки таблицы
 const headers = [
-  { title: 'Показатель', key: 'indicator' },
-  { title: 'Квартал 1', key: 'q1' },
-  { title: 'Квартал 2', key: 'q2' },
-  { title: 'Квартал 3', key: 'q3' },
-  { title: 'Квартал 4', key: 'q4' },
-  { title: 'год', key: 'year' },
+  { title: "Показатель", key: "indicator" },
+  { title: "Квартал 1", key: "q1" },
+  { title: "Квартал 2", key: "q2" },
+  { title: "Квартал 3", key: "q3" },
+  { title: "Квартал 4", key: "q4" },
+  { title: "год", key: "year" },
 ];
 
 // Вычисляемые данные для таблицы
 const tableData = computed(() => {
+  const { aSales, bSales, aRevenue, bRevenue, totalRevenue } = useSalesBudget(
+    props.data
+  );
+
   const {
     productASalesVolume,
     productBSalesVolume,
     productAPrice,
-    productBPrice
+    productBPrice,
   } = props.data;
 
-  // Расчеты по кварталам
-  const aSales = productASalesVolume / 4;
-  const bSales = productBSalesVolume / 4;
-
-  const aRevenue = aSales * productAPrice;
-  const bRevenue = bSales * productBPrice;
-  const totalRevenue = aRevenue + bRevenue;
-
   return [
-    { indicator: 'Объем продаж А, шт.', values: [aSales, aSales, aSales, aSales, productASalesVolume] },
-    { indicator: 'Объем продаж В, шт.', values: [bSales, bSales, bSales, bSales, productBSalesVolume] },
-    { indicator: 'Цена А, руб.', values: Array(5).fill(productAPrice) },
-    { indicator: 'Цена В, руб.', values: Array(5).fill(productBPrice) },
-    { indicator: 'Объем продаж А, руб.', values: [aRevenue, aRevenue, aRevenue, aRevenue, aRevenue * 4] },
-    { indicator: 'Объем продаж В, руб.', values: [bRevenue, bRevenue, bRevenue, bRevenue, bRevenue * 4] },
-    { indicator: 'ИТОГО объем продаж, руб.', values: [totalRevenue, totalRevenue, totalRevenue, totalRevenue, totalRevenue * 4] }
+    {
+      indicator: "Объем продаж А, шт.",
+      values: [aSales, aSales, aSales, aSales, productASalesVolume],
+    },
+    {
+      indicator: "Объем продаж В, шт.",
+      values: [bSales, bSales, bSales, bSales, productBSalesVolume],
+    },
+    { indicator: "Цена А, руб.", values: Array(5).fill(productAPrice) },
+    { indicator: "Цена В, руб.", values: Array(5).fill(productBPrice) },
+    {
+      indicator: "Объем продаж А, руб.",
+      values: [aRevenue, aRevenue, aRevenue, aRevenue, aRevenue * 4],
+    },
+    {
+      indicator: "Объем продаж В, руб.",
+      values: [bRevenue, bRevenue, bRevenue, bRevenue, bRevenue * 4],
+    },
+    {
+      indicator: "ИТОГО объем продаж, руб.",
+      values: [
+        totalRevenue,
+        totalRevenue,
+        totalRevenue,
+        totalRevenue,
+        totalRevenue * 4,
+      ],
+    },
   ];
 });
 
 // Форматирование чисел
 const formatNumber = (num: number) => {
-  return new Intl.NumberFormat('ru-RU').format(num);
+  return new Intl.NumberFormat("ru-RU").format(num);
 };
 </script>
 
 <template>
   <v-data-table
-      :headers="headers"
-      :items="tableData"
-      :items-per-page="-1"
-      hide-default-footer
-      class="elevation-1 quarterly-table"
+    :headers="headers"
+    :items="tableData"
+    :items-per-page="-1"
+    hide-default-footer
+    class="elevation-1 quarterly-table"
   >
     <template #item="{ item }">
       <tr>
