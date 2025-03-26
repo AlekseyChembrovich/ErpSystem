@@ -1,3 +1,4 @@
+<!--
 <script setup lang="ts">
 import { computed } from "vue";
 import type { BusinessData } from "@/models/BusinessData";
@@ -80,3 +81,4 @@ const formatNumber = (num: number) => {
     </template>
   </v-data-table>
 </template>
+-->

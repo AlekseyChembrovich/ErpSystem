@@ -33,31 +33,25 @@ const tableData = computed(() => {
   return [
     {
       indicator: "Объем продаж А, шт.",
-      values: [aSales, aSales, aSales, aSales, productASalesVolume],
+      values: aSales,
     },
     {
       indicator: "Объем продаж В, шт.",
-      values: [bSales, bSales, bSales, bSales, productBSalesVolume],
+      values: bSales,
     },
     { indicator: "Цена А, руб.", values: Array(5).fill(productAPrice) },
     { indicator: "Цена В, руб.", values: Array(5).fill(productBPrice) },
     {
       indicator: "Объем продаж А, руб.",
-      values: [aRevenue, aRevenue, aRevenue, aRevenue, aRevenue * 4],
+      values: aRevenue,
     },
     {
       indicator: "Объем продаж В, руб.",
-      values: [bRevenue, bRevenue, bRevenue, bRevenue, bRevenue * 4],
+      values: bRevenue,
     },
     {
       indicator: "ИТОГО объем продаж, руб.",
-      values: [
-        totalRevenue,
-        totalRevenue,
-        totalRevenue,
-        totalRevenue,
-        totalRevenue * 4,
-      ],
+      values: totalRevenue,
     },
   ];
 });
