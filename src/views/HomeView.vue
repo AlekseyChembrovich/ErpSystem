@@ -14,6 +14,7 @@ import BudgetProductionCosts from "@/components/9_BudgetProductionCosts.vue";
 import GeneralAdminExpensesBudget from "@/components/10_GeneralAdminExpensesBudget.vue";
 import BudgetSellingCosts from "@/components/11_BudgetSellingCosts.vue";
 import CostBudget from "@/components/12_CostBudget.vue";
+import IncomeStatement from "@/components/13_IncomeStatement.vue";
 import { BusinessData, defaultBusinessData } from "@/models/BusinessData";
 
 const tab: Ref<number> = ref(1);
@@ -42,6 +43,7 @@ const updated = (newValue: BusinessData) => {
         <v-tab :value="11" class="text-none">10 Бюджет общехозяйственных расходов</v-tab>
         <v-tab :value="12" class="text-none">11 Бюджет коммерческих расходов</v-tab>
         <v-tab :value="13" class="text-none">12 Бюджет себестоимости</v-tab>
+        <v-tab :value="14" class="text-none">13 Отчет о прибылях и убытках</v-tab>
       </v-tabs>
 
       <v-card-text>
@@ -96,6 +98,10 @@ const updated = (newValue: BusinessData) => {
 
           <v-tabs-window-item :value="13">
             <CostBudget :data="businessData" />
+          </v-tabs-window-item>
+
+          <v-tabs-window-item :value="14">
+            <IncomeStatement :data="businessData" />
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>
