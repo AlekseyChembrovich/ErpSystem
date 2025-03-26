@@ -7,31 +7,31 @@ export const useBudgetProductionCosts = (data: BusinessData) => {
     const q2 = equipmentDepreciation / 4
     const q3 = productionManagementSalary / 4
 
-    const q1Payments = Array(4).fill(q1);
-    const q2Payments = Array(4).fill(q2);
-    const q3Payments = Array(4).fill(q3);
+    const productionElectricityPurposes: number[] = Array(4).fill(q1);
+    const depreciationAndAmortisation: number[] = Array(4).fill(q2);
+    const salaries: number[] = Array(4).fill(q3);
 
-    const q4 = (index: number) => (q3Payments[index] * fsznContributions) / 100
+    const q4 = (index: number) => (salaries[index] * fsznContributions) / 100
 
-    const q4Payments = Array(4).fill(0).map((_, index) => q4(index));
-    const sumRow4 = q4Payments.reduce((v, current) => v + current, 0);
+    const payrollDeductions = Array(4).fill(0).map((_, index) => q4(index));
+    const sumRow4 = payrollDeductions.reduce((v, current) => v + current, 0);
 
-    q1Payments.push(productionElectricity);
-    q2Payments.push(equipmentDepreciation);
-    q3Payments.push(productionManagementSalary);
-    q4Payments.push(sumRow4);
+    productionElectricityPurposes.push(productionElectricity);
+    depreciationAndAmortisation.push(equipmentDepreciation);
+    salaries.push(productionManagementSalary);
+    payrollDeductions.push(sumRow4);
 
     const total: number[] = [];
-    for (let i = 0; i < q1Payments.length; i++) {
-        let val = q1Payments[i] + q2Payments[i] + q3Payments[i] + q4Payments[i];
+    for (let i = 0; i < productionElectricityPurposes.length; i++) {
+        let val = productionElectricityPurposes[i] + depreciationAndAmortisation[i] + salaries[i] + payrollDeductions[i];
         total.push(val);
     }
 
     return {
-        q1Payments: q1Payments,
-        q2Payments: q2Payments,
-        q3Payments: q3Payments,
-        q4Payments: q4Payments,
+        productionElectricityPurposes: productionElectricityPurposes,
+        depreciationAndAmortisation: depreciationAndAmortisation,
+        salaries: salaries,
+        payrollDeductions: payrollDeductions,
         total: total,
     };
 };

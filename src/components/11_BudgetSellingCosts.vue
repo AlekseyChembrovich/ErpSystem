@@ -18,26 +18,24 @@ const headers = [
 
 const tableData = computed(() => {
   const {
-    q1Payments, q2Payments, q3Payments, total
+    advertisements, packagingCosts, travelExpenses, total
   } = useBudgetSellingCosts(props.data);
-
   
   return [
-    
     {
       indicator: "Реклама",
-      values: q1Payments,
+      values: advertisements,
     },
     {
       indicator: "Расходы на упаковку",
-      values: q2Payments,
+      values: packagingCosts,
     },
     {
       indicator: "Командировочные расходы",
-      values: q3Payments,
+      values: travelExpenses,
     },
     {
-      indicator: "ИТОГО , руб.",
+      indicator: "ИТОГО, руб.",
       values: total,
     },
   ];

@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import type { BusinessData } from "@/models/BusinessData";
-import {useGeneralAdminExpensesBudget} from "@/composables/10_useGeneralAdminExpensesBudget";
-import {useMaterial1RequirementBudget} from "@/composables/4_useMaterial1RequirementBudget";
-import {useMaterial1PurchaseBudgetOfSupplier1} from "@/composables/5_useMaterial1PurchaseBudgetOfSupplier1";
-import {useWorker1NeedBudget} from "@/composables/7_useWorker1NeedBudget";
-import {useLabourCostBudgetWorker1} from "@/composables/8_useLabourCostBudgetWorker1";
+import {calcOprRate, calcTzrRate, useCostBudget} from "@/composables/12_useCostBudget";
 
 const props = defineProps<{
   data: BusinessData;
@@ -18,61 +14,29 @@ const headers = [
   { title: "Итого", key: "total" },
 ];
 
+const tzrRate = computed(() => {
+  return calcTzrRate(props.data);
+});
+
+const oprRate = computed(() => {
+  return calcOprRate(props.data);
+});
+
 const tableData = computed(() => {
   const {
-    aDemandVolumeProduction,
-    bDemandVolumeProduction,
-    totalDemandVolumeProduction,
-  } = useMaterial1RequirementBudget(props.data);
+    mat1Costs,
+    tranAndProcurementCosts,
+    worker1LabourCosts,
+    directExpenses,
+    productProductionVolume,
+    generalProductionCosts,
+    generalBusinessExpenses,
+    sellingExpenses,
+    indirectCosts,
+    costOfProduction,
+    unitCost,
+  } = useCostBudget(props.data);
 
-  const {
-    material1Costs,
-      transportAndProcurementCosts,
-  } = useMaterial1PurchaseBudgetOfSupplier1(props.data);
-
-  const {
-    labourIntensityPerAVolume,
-    labourIntensityPerBVolume,
-    totalLabourIntensity,
-  } = useWorker1NeedBudget(props.data);
-
-  const {
-    totalLabourCosts,
-  } = useLabourCostBudgetWorker1(props.data);
-
-  const mat1Costs: number[] = [
-    aDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * material1Costs[5],
-    bDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * material1Costs[5],
-    (aDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * material1Costs[5])
-    + (bDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * material1Costs[5])
-  ];
-
-  const tranAndProcurementCosts: number[] = [
-    aDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * transportAndProcurementCosts[5],
-    bDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * transportAndProcurementCosts[5],
-    (aDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * transportAndProcurementCosts[5])
-    + (bDemandVolumeProduction[5] / totalDemandVolumeProduction[5] * transportAndProcurementCosts[5])
-  ];
-
-  const worker1labourCosts: number[] = [
-    labourIntensityPerAVolume[5] / totalLabourIntensity[5] * totalLabourCosts[5],
-    labourIntensityPerBVolume[5] / totalLabourIntensity[5] * totalLabourCosts[5],
-    (labourIntensityPerAVolume[5] / totalLabourIntensity[5] * totalLabourCosts[5])
-    + (labourIntensityPerBVolume[5] / totalLabourIntensity[5] * totalLabourCosts[5])
-  ];
-  
-  const directExpenses = mat1Costs.map((v, i) => v + tranAndProcurementCosts[i] + worker1labourCosts[i]);
-
-  const productProductionVolume = [
-    aDemandVolumeProduction[5],
-    bDemandVolumeProduction[5],
-    (aDemandVolumeProduction[5] + bDemandVolumeProduction[5])
-  ];
-  
-  // ------------------
-  
-  // const generalProductionCosts = 
-  
   return [
     {
       indicator: "Прямые расходы, в том числе",
@@ -88,7 +52,7 @@ const tableData = computed(() => {
     },
     {
       indicator: "....затраты на оплату труда Рабочего 1",
-      values: worker1labourCosts,
+      values: worker1LabourCosts,
     },
     {
       indicator: "Объем производства Продукта, шт.",
@@ -98,20 +62,31 @@ const tableData = computed(() => {
       indicator: "Себестоимость по прямым расходам, руб.",
       values: directExpenses,
     },
-      
-      // ------------
 
     {
+      indicator: "Себестоимость производства, руб.",
+      values: costOfProduction,
+    },
+    {
+      indicator: "Себестоимость единицы, руб.",
+      values: unitCost,
+    },
+
+    {
+      indicator: "Косвенные расходы, в том числе",
+      values: indirectCosts,
+    },
+    {
       indicator: "....общепроизводственные расходы",
-      values: directExpenses,
+      values: generalProductionCosts,
     },
     {
       indicator: "....общехозяйственные расходы",
-      values: directExpenses,
+      values: generalBusinessExpenses,
     },
     {
       indicator: "....коммерческие расходы",
-      values: directExpenses,
+      values: sellingExpenses,
     },
   ];
 });
@@ -137,4 +112,7 @@ const formatNumber = (num: number) => {
       </tr>
     </template>
   </v-data-table>
+  
+  <p class="mt-8 text-h6">Ставка ТЗР (800/(800+15600): {{ formatNumber(tzrRate) }}</p>
+  <p class="mt-2 text-h6">Ставка ОПР: {{ formatNumber(oprRate) }}</p>
 </template>
