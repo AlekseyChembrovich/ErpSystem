@@ -3,7 +3,7 @@ import { ref } from "vue";
 import type { Ref } from "@vue/reactivity";
 import SourceData from "@/components/SourceData.vue";
 import SalesBudget from "@/components/1_SalesBudget.vue";
-/*import PaymentSchedule from "@/components/2_PaymentSchedule.vue";*/
+import PaymentSchedule from "@/components/2_PaymentSchedule.vue";
 import BudgetProductionAndProductInventory from "@/components/3_BudgetProductionAndProductInventory.vue";
 import Material1RequirementBudget from "@/components/4_Material1RequirementBudget.vue";
 import Material1PurchaseBudgetOfSupplier1 from "@/components/5_Material1PurchaseBudgetOfSupplier1.vue";
@@ -44,11 +44,9 @@ const updated = (newValue: BusinessData) => {
             <SalesBudget :data="businessData" />
           </v-tabs-window-item>
 
-          <!--
           <v-tabs-window-item :value="3">
             <PaymentSchedule :data="businessData" />
           </v-tabs-window-item>
-          -->
 
           <v-tabs-window-item :value="4">
             <BudgetProductionAndProductInventory :data="businessData" />
