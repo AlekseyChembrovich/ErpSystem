@@ -9,6 +9,7 @@ import Material1RequirementBudget from "@/components/4_Material1RequirementBudge
 import Material1PurchaseBudgetOfSupplier1 from "@/components/5_Material1PurchaseBudgetOfSupplier1.vue";
 import Material1PaymentScheduleToSupplier1 from "@/components/6_Material1PaymentScheduleToSupplier1.vue";
 import Worker1NeedBudget from "@/components/7_Worker1NeedBudget.vue";
+import LabourCostBudgetWorker1 from "@/components/8_LabourCostBudgetWorker1.vue";
 import { BusinessData, defaultBusinessData } from "@/models/BusinessData";
 
 const tab: Ref<number> = ref(1);
@@ -32,6 +33,7 @@ const updated = (newValue: BusinessData) => {
         <v-tab :value="6" class="text-none">5 Бюджет закупки Материала 1 у Поставщика 1</v-tab>
         <v-tab :value="7" class="text-none">6 График платежей Поставщику 1 за Материал 1</v-tab>
         <v-tab :value="8" class="text-none">7 Бюджет потребности в Рабочем 1</v-tab>
+        <v-tab :value="9" class="text-none">8 Бюджет расходов на оплату труда Рабочего 1</v-tab>
       </v-tabs>
 
       <v-card-text>
@@ -66,6 +68,10 @@ const updated = (newValue: BusinessData) => {
 
           <v-tabs-window-item :value="8">
             <Worker1NeedBudget :data="businessData" />
+          </v-tabs-window-item>
+          
+          <v-tabs-window-item :value="9">
+            <LabourCostBudgetWorker1 :data="businessData" />
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>
