@@ -18,28 +18,29 @@ const headers = [
 
 const tableData = computed(() => {
   const {
-    q1Payments, q2Payments, q3Payments, q4Payments, total
+    productionElectricityPurposes,
+    depreciationAndAmortisation,
+    salaries,
+    payrollDeductions,
+    total,
   } = useBudgetProductionCosts(props.data);
-
   
   return [
-    
     {
       indicator: "Электроэнергия на производственные цели",
-      values: q1Payments,
+      values: productionElectricityPurposes,
     },
     {
       indicator: "Амортизация производственного оборудования",
-      values: q2Payments,
+      values: depreciationAndAmortisation,
     },
     {
       indicator: "Заработная плата, руб.",
-      values: q3Payments,
+      values: salaries,
     },
-
     {
       indicator: "Отчисления на заработную плату, руб.",
-      values: q4Payments,
+      values: payrollDeductions,
     },
     {
       indicator: "ИТОГО , руб.",
