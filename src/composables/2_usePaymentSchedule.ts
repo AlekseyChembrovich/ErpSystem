@@ -14,8 +14,9 @@ export const usePaymentSchedule = (data: BusinessData) => {
 
     const quarterPaymentA = (index: number) =>
         aRevenue[index] * aBuyer1RelationshipPolicyPercent
-        + bRevenue[index] * bBuyer1RelationshipPolicyPercent
-        + bRevenue[index + 1] * (1 - bBuyer1RelationshipPolicyPercent);
+        + bRevenue[index] * bBuyer1RelationshipPolicyPercent;
+
+    const foo = (index: number) => bRevenue[index + 1] * (1 - bBuyer1RelationshipPolicyPercent);
     
     const quarterPaymentB = (index: number) => aRevenue[index] * (1 - aBuyer1RelationshipPolicyPercent);
     
@@ -24,9 +25,9 @@ export const usePaymentSchedule = (data: BusinessData) => {
         + bRevenue[index] * bBuyer1RelationshipPolicyPercent;
 
     const quarter1Payments: number[] = [quarterPaymentA(0), quarterPaymentB(0), 0, 0]
-    const quarter2Payments: number[] = [0, quarterPaymentA(1), quarterPaymentB(1), 0]
-    const quarter3Payments: number[] = [0, 0, quarterPaymentA(2), quarterPaymentB(2)]
-    const quarter4Payments: number[] = [0, 0, 0, quarterPaymentC(3)]
+    const quarter2Payments: number[] = [foo(0), quarterPaymentA(1), quarterPaymentB(1), 0]
+    const quarter3Payments: number[] = [0, foo(1), quarterPaymentA(2), quarterPaymentB(2)]
+    const quarter4Payments: number[] = [0, 0, foo(2), quarterPaymentC(3)]
 
     const sumRow1 = quarter1Payments.reduce((v, current) => v + current, 0);
     const sumRow2 = quarter2Payments.reduce((v, current) => v + current, 0);

@@ -1,8 +1,40 @@
 import type { BusinessData } from "@/models/BusinessData";
 import { usePaymentSchedule } from "./2_usePaymentSchedule";
 import { useCostBudget } from "./12_useCostBudget";
+import {useBudgetProductionAndProductInventory} from "@/composables/3_useBudgetProductionAndProductInventory";
+import {useSalesBudget} from "@/composables/1_useSalesBudget";
 
 export const useIncomeStatement = (data: BusinessData) => {
+
+
+    const { aSales, bSales } = useSalesBudget(data);
+    const { unitCost } = useCostBudget(data);
+    const {
+        aBeginningInventoryArray,
+        aEndInventoryArray,
+        bBeginningInventoryArray,
+        bEndInventoryArray,
+        aVolume,
+        bVolume,
+    } = useBudgetProductionAndProductInventory(data);
+
+
+    const aProductionVolume: number[] = [];
+    for (let i = 0; i < aSales.length; i++) {
+        let bal = aSales[i] - aBeginningInventoryArray[i] + aEndInventoryArray[i];
+        aProductionVolume.push(bal * unitCost[0]);
+    }
+
+    const bProductionVolume: number[] = [];
+    for (let i = 0; i < bSales.length; i++) {
+        let bal = bSales[i] - bBeginningInventoryArray[i] + bEndInventoryArray[i];
+        bProductionVolume.push(bal * unitCost[1]);
+    }
+
+    const totalProductionVolume = aProductionVolume.map((v, i) => v + bProductionVolume[i]);
+    
+    
+
     const { totalPayments } = usePaymentSchedule(data)
     const {
         costOfProduction,
@@ -14,11 +46,10 @@ export const useIncomeStatement = (data: BusinessData) => {
     const managementExpensesСalculation = generalBusinessExpenses[generalBusinessExpenses.length - 1] / 4;
     const sellingExpensesСalculation = sellingExpensesFromCostBudget[sellingExpensesFromCostBudget.length - 1] / 4;
 
-    const costOfSales = Array(4).fill(costOfSalesСalculation);
+    const costOfSales = totalProductionVolume;
     const managementExpenses = Array(4).fill(managementExpensesСalculation);
     const sellingExpenses = Array(4).fill(sellingExpensesСalculation);
 
-    costOfSales.push(costOfProduction[costOfProduction.length - 1]);
     managementExpenses.push(generalBusinessExpenses[generalBusinessExpenses.length - 1]);
     sellingExpenses.push(sellingExpensesFromCostBudget[sellingExpensesFromCostBudget.length - 1]);
 

@@ -32,9 +32,7 @@ const tableData = computed(() => {
   
   const aPlannedCost = Array(5).fill(unitCost[0]);
   const bPlannedCost = Array(5).fill(unitCost[1]);
-  
-  console.log(unitCost)
-  
+
   const aProductionVolume: number[] = [];
   for (let i = 0; i < aSales.length; i++) {
     let bal = aSales[i] - aBeginningInventoryArray[i] + aEndInventoryArray[i];
