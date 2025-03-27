@@ -11,12 +11,14 @@ const emit = defineEmits<{ (e: 'modelUpdated', model: BusinessData): void }>();
 
 const businessData = reactive<BusinessData>(props.data);
 
-watch(businessData, (newVal) => {
+watch(businessData, (newVal: BusinessData) => {
   items.value.forEach(item => {
     if (item.dataKey) {
       item.value = newVal[item.dataKey as keyof BusinessData];
     }
   });
+
+  localStorage.setItem('businessData', JSON.stringify(newVal));
   
   emit('modelUpdated', newVal);
 }, { deep: true });
@@ -27,9 +29,8 @@ const items = ref([
   { material: 'Продукт А', indicator: 'цена реализации', designation: 'Ц', unit: 'руб.', value: businessData.productAPrice, comment: '', dataKey: 'productAPrice' },
   { material: 'Продукт В', indicator: 'цена реализации', designation: 'Ц', unit: 'руб.', value: businessData.productBPrice, comment: '', dataKey: 'productBPrice' },
 
-  // TODO: to be hardcoded
-  // { material: 'Продукт А', indicator: 'Политика взаимоотношений с Покупателем 1', designation: '', unit: '', value: null, comment: 'оплата по факту поставки в периоде отгрузки 40%, в периоде, следующем за периодом отгрузки 60%' },
-  // { material: 'Продукт В', indicator: 'Политика взаимоотношений с Покупателем 1', designation: '', unit: '', value: null, comment: 'предоплата 40% в периоде, предшествующем периоду отгрузки, 60% - оплата по факту оплаты' },
+  { material: 'Продукт А', indicator: 'Политика взаимоотношений с Покупателем 1', designation: '', unit: '%', value: businessData.aBuyer1RelationshipPolicy, comment: 'оплата по факту поставки в периоде отгрузки 40%, в периоде, следующем за периодом отгрузки 60%' },
+  { material: 'Продукт В', indicator: 'Политика взаимоотношений с Покупателем 1', designation: '', unit: '%', value: businessData.bBuyer1RelationshipPolicy, comment: 'предоплата 40% в периоде, предшествующем периоду отгрузки, 60% - оплата по факту оплаты' },
 
   { material: 'Продукт А', indicator: 'Остаток на начало года по Продукту А', designation: '', unit: 'шт.', value: businessData.productABeginningInventory, comment: '', dataKey: 'productABeginningInventory' },
   { material: 'Продукт В', indicator: 'Остаток на начало года по Продукту В', designation: '', unit: 'шт.', value: businessData.productBBeginningInventory, comment: '', dataKey: 'productBBeginningInventory' },

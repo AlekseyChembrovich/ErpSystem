@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import type { Ref } from "@vue/reactivity";
 import SourceData from "@/components/SourceData.vue";
 import SalesBudget from "@/components/1_SalesBudget.vue";
@@ -19,6 +19,13 @@ import { BusinessData, defaultBusinessData } from "@/models/BusinessData";
 
 const tab: Ref<number> = ref(1);
 const businessData: Ref<BusinessData> = ref(defaultBusinessData);
+
+onBeforeMount(() => {
+  const savedData = localStorage.getItem('businessData');
+  if (savedData) {
+    businessData.value = JSON.parse(savedData) as BusinessData;
+  }
+});
 
 const updated = (newValue: BusinessData) => {
   console.log(newValue);

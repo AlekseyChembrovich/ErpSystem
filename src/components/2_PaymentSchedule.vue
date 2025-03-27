@@ -18,24 +18,30 @@ const headers = [
 ];
 
 const tableData = computed(() => {
-  const {firstQuarterPayments, secondQuarterPayments, thirdQuarterPayments, fourthQuarterPayments, totalPayments} = usePaymentSchedule(props.data)
+  const {
+    quarter1Payments,
+    quarter2Payments,
+    quarter3Payments,
+    quarter4Payments,
+    totalPayments
+  } = usePaymentSchedule(props.data)
 
   return [
     {
       indicator: "платежи 1-го квартала, руб. (Итого №1)",
-      values: firstQuarterPayments,
+      values: quarter1Payments,
     },
     {
       indicator: "платежи 2-го квартала, руб. (Итого №1)",
-      values: secondQuarterPayments,
+      values: quarter2Payments,
     },
     {
       indicator: "платежи 3-го квартала, руб. (Итого №1)",
-      values: thirdQuarterPayments,
+      values: quarter3Payments,
     },
     {
       indicator: "платежи 4-го квартала, руб. (Итого №1)",
-      values: fourthQuarterPayments,
+      values: quarter4Payments,
     },
     {
       indicator: "ИТОГО платежи, руб.",
