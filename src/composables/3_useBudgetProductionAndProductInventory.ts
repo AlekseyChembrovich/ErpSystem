@@ -1,5 +1,6 @@
 ﻿import type { BusinessData } from "@/models/BusinessData";
 import { useSalesBudget } from "@/composables/1_useSalesBudget";
+import {useCostBudget} from "@/composables/12_useCostBudget";
 
 export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
     const { aSales, bSales } = useSalesBudget(data);
@@ -22,10 +23,10 @@ export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
         }
         else {
             if (i >= 3) {
-                balance = aSales[0] * productAInventoryPolicy / 100;
+                balance = Math.ceil(aSales[0] * productAInventoryPolicy / 100);
             }
             else {
-                balance = aSales[i + 1] * productAInventoryPolicy / 100;
+                balance = Math.ceil(aSales[i + 1] * productAInventoryPolicy / 100);
             }
         }
 
@@ -48,10 +49,10 @@ export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
         }
         else {
             if (i >= 3) {
-                balance = bSales[0] * productBInventoryPolicy / 100;
+                balance = Math.ceil(bSales[0] * productBInventoryPolicy / 100);
             }
             else {
-                balance = bSales[i + 1] * productBInventoryPolicy / 100;
+                balance = Math.ceil(bSales[i + 1] * productBInventoryPolicy / 100);
             }
         }
 
@@ -65,6 +66,10 @@ export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
     bBeginningInventoryArray.push(productBBeginningInventory);
     bEndInventoryArray.push(bEndInventoryArray[bEndInventoryArray.length - 1]);
 
+    /*const { unitCost } = useCostBudget(data);
+    
+    console.log(unitCost)*/
+    
     const aVolume: number[] = [];
     const aProductionVolume: number[] = [];
     for (let i = 0; i < aSales.length; i++) {
@@ -78,7 +83,7 @@ export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
     for (let i = 0; i < bSales.length; i++) {
         let bal = bSales[i] - bBeginningInventoryArray[i] + bEndInventoryArray[i];
         bVolume.push(bal);
-        bProductionVolume.push(bal * productBPrice);
+        bProductionVolume.push(bal * productAPrice);
     }
 
     const totalProductionVolume = aProductionVolume.map((v, i) => v + bProductionVolume[i]);
