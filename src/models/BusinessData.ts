@@ -6,7 +6,11 @@ export interface BusinessData {
     productBSalesVolume: number;        // Объем продаж в натуральном выражении для продукта B
     productAPrice: number;              // цена реализации для продукта А
     productBPrice: number;              // цена реализации для продукта B
-
+    
+    // Политика взаимоотношений с Покупателем 1
+    aBuyer1RelationshipPolicy: number;    // Политика взаимоотношений с Покупателем 1 по Продукту А
+    bBuyer1RelationshipPolicy: number;    // Политика взаимоотношений с Покупателем 1 по Продукту В
+    
     // Остатки на начало года
     productABeginningInventory: number; // Остаток на начало года по Продукту А
     productBBeginningInventory: number; // Остаток на начало года по Продукту В
@@ -109,6 +113,10 @@ export const defaultBusinessData = reactive<BusinessData>({
     productBSalesVolume: 260,
     productAPrice: 40,
     productBPrice: 95,
+
+    aBuyer1RelationshipPolicy: 40,
+    bBuyer1RelationshipPolicy: 60,
+    
     productABeginningInventory: 23,
     productBBeginningInventory: 150,
     productAInventoryPolicy: 20,

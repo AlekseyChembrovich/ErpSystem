@@ -17,7 +17,7 @@ export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
     const aEndInventoryArray: number[] = [];
     for (let i = 0; i < 4; i++) {
         let balance = 0;
-        if (aBeginningInventoryArray[i] > aSales[i]) {
+        if (aBeginningInventoryArray[i] - aSales[i] > aSales[i + 1] * productAInventoryPolicy / 100) {
             balance = aBeginningInventoryArray[i] - aSales[i];
         }
         else {
@@ -43,7 +43,7 @@ export const useBudgetProductionAndProductInventory = (data: BusinessData) => {
     const bEndInventoryArray: number[] = [];
     for (let i = 0; i < 4; i++) {
         let balance = 0;
-        if (bBeginningInventoryArray[i] > bSales[i]) {
+        if (bBeginningInventoryArray[i] - bSales[i] > bSales[i + 1] * productBInventoryPolicy / 100) {
             balance = bBeginningInventoryArray[i] - bSales[i];
         }
         else {
